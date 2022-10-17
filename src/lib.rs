@@ -31,7 +31,7 @@ pub struct Config {
 impl Config {
     pub fn new() -> Result<Config, Box<dyn Error>> {
         let matches = App::new("stdrename")
-        .version("v1.3.0")
+        .version("v1.3.1")
         .author("Gabriel Lacroix <lacroixgabriel@gmail.com>")
         .about("This small utility is designed to rename all files in a folder according to a specified naming convention (camelCase, snake_case, kebab-case, etc.).")
         .usage("stdrename [FLAGS] <convention> [TARGET]")
@@ -259,8 +259,12 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
             .ok_or("can't find path parent")?
             .join(new_name);
         if path != new_path {
-            fs::rename(&path, &new_path)?;
+            // fs::rename(&path, &new_path)?;
+            println!("{} {}", path.display(), new_path.display());
+            //println!("{}", path.display());
+            //println!("{}", new_path.display());
             files_renamed += 1;
+            break;
         }
     }
     let running_time: f32 = start_time.elapsed().as_micros() as f32 / 1_000_000f32;
